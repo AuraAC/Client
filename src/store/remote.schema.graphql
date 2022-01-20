@@ -1,0 +1,685 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+type ApiKey {
+    apiKeyId: ID!
+    created: DateTime!
+    disabled: DateTime
+}
+
+type ApiKeyListResult {
+    count: Int
+    list: [ApiKey!]
+}
+
+type ApiKeySecret {
+    apiKeyId: ID!
+    created: DateTime!
+    disabled: DateTime
+    secret: String!
+    userId: String!
+}
+
+type Feedback {
+    created: DateTime
+    description: String
+    feedbackId: ID!
+    title: String
+    userId: String
+}
+
+type FeedbackListResult {
+    count: Int
+    list: [Feedback!]
+}
+
+type File {
+    encoding: String
+    fileSize: Float
+    mimeType: String
+    order: Int
+    originFileName: String!
+    path: String!
+    type: FileType!
+}
+
+type KycApplicant {
+    birthday: DateTime
+    countryCode2: String
+    countryCode3: String
+    details: [StringMap!]
+    email: String
+    firstName: String
+    lastName: String
+    phone: String
+    status: String
+}
+
+type KycAppliedDocument {
+    code: String!
+    countryCode2: String
+    countryCode3: String
+    details: [StringMap!]
+    firstName: String
+    issuedDate: String
+    lastName: String
+    number: String
+    validUntil: String
+}
+
+type KycDocumentType {
+    code: String
+    description: String
+    name: String
+    options: [String!]
+    subTypes: [KycDocumentType!]
+    type: String
+}
+
+type KycInfo {
+    applicant: KycApplicant
+    appliedDocuments: [KycAppliedDocument!]
+    requiredInfo: KycRequiredInfo
+}
+
+type KycInfoField {
+    name: String
+    required: Boolean
+}
+
+type KycRejectedLabel {
+    code: String
+    description: String
+    type: String
+}
+
+type KycRequiredInfo {
+    documents: [KycDocumentType!]
+    fields: [KycInfoField!]
+}
+
+type LoginResult {
+    authToken: String
+    authTokenAction: String
+    authTokenActionParam: String
+    user: User
+}
+
+type Mutation {
+    addFeedback(feedback: FeedbackInput!): Feedback!
+    addMyContact(contact: UserContactInput): User
+    addSettingsKyc(settings: SettingsKycInput!): SettingsKyc!
+    addSettingsKycLevel(settingsLevel: SettingsKycLevelInput!): SettingsKycLevel!
+    assignRole(roleCodes: [String!], userId: ID!): User
+    changePassword(code2fa: String, newPassword: String!, oldPassword: String!): Boolean!
+    confirmDevice(recaptcha: String!, token: String!): Boolean!
+    confirmEmail(code: Int, email: String, recaptcha: String!, token: String): Boolean!
+    createMyApiKey: ApiKeySecret
+    createUserApiKey(userId: String): ApiKeySecret
+    deleteMyApiKey(apiKeyId: String): ApiKey
+    deleteMyContact(contactId: ID!): User
+    deleteMyNotification(notificationId: ID!): UserNotification
+    deleteSettingsKyc(settingsId: ID!): SettingsKyc!
+    deleteSettingsKycLevel(settingsId: ID!): SettingsKycLevel!
+    deleteUser(userId: ID!): User
+    deleteUserApiKey(apiKeyId: String): ApiKey
+    deleteUserNotification(notificationId: ID!): UserNotification
+    disable2fa(code: String!, password: String!): LoginResult!
+    enable2fa(code: String!, password: String!): LoginResult!
+    foo: String!
+    forgotPassword(email: String!, recaptcha: String!): Boolean!
+    generate2faCode: TwoFactorAuthenticationResult!
+    get2faQRCode(data: String!): String!
+    login(email: String, oAuthProvider: OAuthProvider, oAuthToken: String, password: String, recaptcha: String!): LoginResult!
+    logout: Boolean!
+    refreshToken: String!
+    removeRole(roleCodes: [String!], userId: ID!): User
+    sendAdminNotification(level: UserNotificationLevel, message: String, notifiedUserId: String): UserNotification
+    sendEmailCodePasswordChange: Boolean!
+    setMyInfo(address: PostAddress, birthday: DateTime, firstName: String, lastName: String, phone: String, recaptcha: String!): LoginResult!
+    setPassword(password: String!, recaptcha: String!, token: String!): Boolean!
+    setUserInfo(address: PostAddress, birthday: DateTime, firstName: String, lastName: String, phone: String, userId: String!): LoginResult!
+    signup(address: PostAddress, birthday: DateTime, countryCode2: String, countryCode3: String, email: String!, firstName: String, lastName: String, mode: UserMode!, password: String, phone: String, recaptcha: String!, termsOfUse: Boolean!): LoginResult!
+    updateMe(user: UserInput): User
+    updateMyContact(contact: UserContactInput, contactId: String!): User
+    updateSettingsCommon(settings: SettingsCommonInput!, settingsId: ID!): SettingsCommon!
+    updateSettingsKyc(settings: SettingsKycInput!, settingsId: ID!): SettingsKyc!
+    updateSettingsKycLevel(settingsLevel: SettingsKycLevelInput!, settingsLevelId: ID!): SettingsKycLevel!
+    updateUser(user: UserInput, userId: ID!): User
+    verify2faCode(code: String!): LoginResult!
+}
+
+type Query {
+    generateWebApiToken: String!
+    getApiKeys(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): ApiKeyListResult
+    getAppropriateSettingsKyc(filterType: SettingsKycTargetFilterType, filterValue: String, targetKycProvider: KycProvider!, targetUserMode: UserMode!): SettingsKyc
+    getFeedbacks(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): FeedbackListResult
+    getNotifications(filter: String, first: Int, orderBy: [OrderBy!], skip: Int, unreadOnly: Boolean, userId: String): UserNotificationListResult
+    getSettingsCommon: SettingsCommon
+    getSettingsKyc(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): SettingsKycListResult
+    getSettingsKycLevels(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): SettingsKycLevelListResult
+    getSettingsKycShort(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): SettingsKycShortListResult
+    getSupportTickets(filter: String, first: Int, orderBy: [OrderBy!], skip: Int, userId: String): SupportTicketListResult
+    getUserActions(filter: String, first: Int, orderBy: [OrderBy!], skip: Int, userId: String, withResult: UserActionResult): UserActionListResult!
+    getUserContacts(filter: String, first: Int, orderBy: [OrderBy!], skip: Int, userId: String): UserContactListResult!
+    getUserKycInfo(userId: String): KycInfo
+    getUserState(userId: String): UserState!
+    getUsers(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): UserListResult!
+    me: User!
+    myActions(filter: String, first: Int, orderBy: [OrderBy!], skip: Int, withResult: UserActionResult): UserActionListResult!
+    myApiKeys(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): ApiKeyListResult
+    myContacts(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): UserContactListResult!
+    myKycInfo: KycInfo
+    myKycStatus: String!
+    myNotifications(filter: String, first: Int, orderBy: [OrderBy!], skip: Int, unreadOnly: Boolean): UserNotificationListResult
+    mySettingsKyc: SettingsKycShort
+    mySettingsKycFull: SettingsKyc
+    myState: UserState!
+    mySupportTickets(filter: String, first: Int, orderBy: [OrderBy!], skip: Int): SupportTicketListResult
+    serverTime: String!
+    userByEmail(email: String): User!
+    userById(userId: String): User!
+    userByName(name: String): User!
+    userByOAuthAppId(oAuthAppId: String, oAuthProvider: OAuthProvider): User!
+    userByReferralCode(referralCode: Int): User!
+    userCount: Int
+    userKycInfo(userId: String!): KycInfo!
+}
+
+type SettingsCommon {
+    additionalSettings: String
+    adminEmails: [String!]
+    custodyProvider: String
+    kycBaseAddress: String
+    kycProvider: String
+    liquidityProvider: String
+    settingsCommonId: String
+}
+
+type SettingsKyc {
+    apiKey: String!
+    deleted: DateTime
+    serviceId: String
+    serviceName: String!
+    settingsKycId: ID!
+    targetKycProviders: [KycProvider!]
+    targetUserModes: [UserMode!]
+}
+
+type SettingsKycLevel {
+    created: DateTime
+    createdBy: String
+    data: String
+    description: String
+    name: String
+    order: Int
+    settingsKycLevelId: ID!
+}
+
+type SettingsKycLevelListResult {
+    count: Int
+    list: [SettingsKycLevel!]
+}
+
+type SettingsKycLevelShort {
+    data: String
+    description: String
+    name: String
+    order: Int
+    settingsKycLevelId: ID!
+}
+
+type SettingsKycListResult {
+    count: Int
+    list: [SettingsKyc!]
+}
+
+type SettingsKycShort {
+    passed: Boolean!
+    serviceId: String
+    serviceName: String!
+    settingsKycId: ID!
+}
+
+type SettingsKycShortListResult {
+    count: Int
+    list: [SettingsKycShort!]
+}
+
+type StringMap {
+    key: String!
+    value: String
+}
+
+type Subscription {
+    newNotification: Void
+}
+
+type SupportTicket {
+    category: SupportTicketCategory
+    created: DateTime
+    description: String
+    files: [String!]
+    supportTicketId: ID!
+    title: String
+    userId: String
+}
+
+type SupportTicketListResult {
+    count: Int
+    list: [SupportTicket!]
+}
+
+type TwoFactorAuthenticationResult {
+    code: String!
+    otpauthUrl: String!
+    qr: String!
+}
+
+type User {
+    accessFailedCount: Int
+    addressEndDate: DateTime
+    addressStartDate: DateTime
+    avatar: String
+    birthday: DateTime
+    buildingName: String
+    buildingNumber: String
+    changePasswordRequired: Boolean
+    contacts: [UserContact!]
+    countryCode2: String
+    countryCode3: String
+    created: DateTime
+    deleted: DateTime
+    email: String!
+    emailConfirmed: DateTime
+    firstName: String
+    flatNumber: String
+    hasEmailAuth: Boolean
+    is2faEnabled: Boolean
+    kycApplicantId: String
+    kycPrivateComment: String
+    kycProvider: String
+    kycReviewComment: String
+    kycReviewDate: DateTime
+    kycReviewRejectedLabels: [String!]
+    kycReviewRejectedType: String
+    kycReviewResult: String
+    kycServiceId: String
+    kycStatus: String
+    kycStatusDate: DateTime
+    kycStatusUpdateRequired: Boolean
+    kycValid: Boolean
+    kycValidationTierId: String
+    lastName: String
+    mode: UserMode
+    notificationSubscriptions: [UserNotificationSubscription!]
+    permissions: [UserRolePermission!]
+    phone: String
+    postCode: String
+    referralCode: Int
+    roles: [UserRole!]
+    stateName: String
+    street: String
+    subStreet: String
+    systemUser: Boolean!
+    termsOfUse: Boolean
+    town: String
+    updated: DateTime
+    userId: ID!
+}
+
+type UserAction {
+    actionType: UserActionType
+    date: DateTime
+    info: String
+    linkedIds: [String!]
+    objectId: String
+    result: UserActionResult
+    status: String
+    userActionId: ID!
+    userId: String!
+}
+
+type UserActionListResult {
+    count: Int
+    list: [UserAction!]
+}
+
+type UserContact {
+    address: String
+    assetId: String
+    contactEmail: String
+    created: DateTime
+    displayName: String
+    userContactId: String
+    userId: String
+}
+
+type UserContactListResult {
+    count: Int
+    list: [UserContact!]
+}
+
+type UserDevice {
+    area: Int
+    browser: String
+    city: String
+    countryCode2: String
+    countryCode3: String
+    created: DateTime
+    device: String
+    deviceConfirmed: DateTime
+    eu: String
+    location: String
+    metro: Int
+    region: String
+    userDeviceId: String
+    userId: String
+}
+
+type UserListResult {
+    count: Int
+    list: [User!]
+}
+
+type UserLogin {
+    date: DateTime!
+    ip: String
+    result: Int!
+    resultTokenAction: String
+    userDeviceId: String
+    userId: String
+    userLoginId: String
+}
+
+type UserNotification {
+    created: DateTime
+    linkedId: String
+    linkedTable: String
+    params: String
+    text: String
+    user: User
+    userId: String
+    userNotificationId: ID!
+    userNotificationLevel: UserNotificationLevel
+    userNotificationTypeCode: String!
+    viewed: DateTime
+}
+
+type UserNotificationListResult {
+    count: Int
+    list: [UserNotification!]
+}
+
+type UserNotificationSubscription {
+    emailNotification: Boolean
+    siteNotification: Boolean
+    userId: String
+    userNotificationSubscriptionId: ID!
+    userNotificationTypeCode: String!
+}
+
+type UserNotificationSubscriptionListResult {
+    count: Int
+    list: [UserNotificationSubscription!]
+}
+
+type UserNotificationType {
+    description: String
+    emailNotificationDefault: Boolean
+    emailNotificationImmutable: Boolean
+    name: String!
+    siteNotificationDefault: Boolean
+    siteNotificationImmutable: Boolean
+    userNotificationTypeCode: ID!
+}
+
+type UserNotificationTypeListResult {
+    count: Int
+    list: [UserNotificationType!]
+}
+
+type UserRole {
+    code: String!
+    immutable: Boolean
+    name: String!
+}
+
+type UserRolePermission {
+    fullAccess: Boolean!
+    objectCode: String!
+    objectDescription: String!
+    objectName: String!
+    roleCode: String!
+    roleName: String!
+}
+
+type UserShort {
+    avatar: String
+    birthday: DateTime
+    countryCode2: String
+    countryCode3: String
+    email: String!
+    firstName: String
+    kycReviewComment: String
+    kycStatus: String
+    kycValid: Boolean
+    lastName: String
+}
+
+type UserState {
+    date: DateTime
+    notifications(first: Int, orderBy: [OrderBy!], skip: Int, unreadOnly: Boolean): UserNotificationListResult
+}
+
+enum CountryCodeType {
+    code2
+    code3
+}
+
+enum FileType {
+    Avatar
+    SupportTicket
+}
+
+enum KycProvider {
+    BlockPass
+    Local
+    SumSub
+}
+
+enum KycStatus {
+    completed
+    init
+    notFound
+    onHold
+    pending
+    queued
+    unknown
+}
+
+enum OAuthProvider {
+    facebook
+    google
+    microsoft
+    twitter
+}
+
+enum SettingsKycTargetFilterType {
+    AccountId
+    AffiliateId
+    Country
+    InitiateFrom
+    None
+}
+
+enum SupportTicketCategory {
+    Authorization
+}
+
+enum TokenAction {
+    ApiKey
+    ConfirmDevice
+    ConfirmEmail
+    ConfirmPasswordChange
+    Default
+    KycRequired
+    TwoFactorAuth
+    UserInfoRequired
+}
+
+enum UserActionResult {
+    canceled
+    error
+    failed
+    succeeded
+    unknown
+}
+
+enum UserActionType {
+    deposit
+    exchange
+    login
+    logout
+    receive
+    send
+    signup
+    system
+    transfer
+    withdraw
+}
+
+enum UserMode {
+    StandardUser
+}
+
+enum UserNotificationCodes {
+    ADMIN_TO_USER_NOTIFICATION
+    KYC_STATUS_CHANGED
+    TEST_NOTIFICATION
+}
+
+enum UserNotificationLevel {
+    Debug
+    Error
+    Info
+    Warning
+}
+
+input FeedbackInput {
+    description: String
+    title: String
+}
+
+input FileInfo {
+    order: Int
+    type: FileType
+}
+
+input OrderBy {
+    desc: Boolean!
+    orderBy: String!
+}
+
+input PostAddress {
+    addressEndDate: DateTime
+    addressStartDate: DateTime
+    buildingName: String
+    buildingNumber: String
+    flatNumber: String
+    postCode: String
+    stateName: String
+    street: String
+    subStreet: String
+    town: String
+}
+
+input RequiredUserPermission {
+    fullAccess: Boolean
+    objectCode: String
+}
+
+input SettingsCommonInput {
+    additionalSettings: String
+    adminEmails: [String!]
+    custodyProvider: String
+    kycProvider: String
+    liquidityProvider: String
+}
+
+input SettingsKycInput {
+    apiKey: String!
+    deleted: DateTime
+    serviceId: String
+    serviceName: String!
+    targetKycProviders: [KycProvider!]
+    targetUserModes: [UserMode!]
+}
+
+input SettingsKycLevelInput {
+    data: String!
+    description: String
+    name: String!
+    order: Int
+}
+
+input UserContactInput {
+    address: String
+    assetId: String
+    contactEmail: String
+    displayName: String
+}
+
+input UserInput {
+    addressEndDate: DateTime
+    addressStartDate: DateTime
+    avatar: String
+    birthday: DateTime
+    buildingName: String
+    buildingNumber: String
+    changePasswordRequired: Boolean
+    countryCode2: String
+    countryCode3: String
+    deleted: DateTime
+    email: String
+    emailConfirmed: DateTime
+    firstName: String
+    flatNumber: String
+    lastName: String
+    mode: UserMode
+    phone: String
+    postCode: String
+    stateName: String
+    street: String
+    subStreet: String
+    termsOfUse: Boolean
+    town: String
+}
+
+input UserNotificationSubscriptionInput {
+    emailNotification: Boolean
+    siteNotification: Boolean
+    userId: String
+    userNotificationTypeCode: String!
+}
+
+input UserNotificationTypeInput {
+    description: String
+    emailNotificationDefault: Boolean
+    emailNotificationImmutable: Boolean
+    name: String!
+    siteNotificationDefault: Boolean
+    siteNotificationImmutable: Boolean
+}
+
+
+scalar DateTime
+
+scalar Void
+
+scalar Byte

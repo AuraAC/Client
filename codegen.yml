@@ -1,0 +1,8 @@
+overwrite: true
+schema: "src/store/**/*.graphql"
+documents: null
+generates:
+  ./src/store/generated-models.ts:
+    plugins:
+      - add: /* tslint:ignore */
+      - "typescript"

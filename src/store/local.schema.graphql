@@ -1,0 +1,24 @@
+directive @client on FIELD
+
+extend type Query {
+    appState: AppState!
+}
+
+extend type Mutation {
+    updateAppState (
+        isFullScreen: Boolean
+        isProMode: Boolean
+        isRealTrading: Boolean
+        isSideBarCollapsed: Boolean,
+        currentMarketId: String
+    ) : AppState!
+    initLocalCache: Boolean!
+    processInitLocalCache: Boolean!
+}
+
+type AppState {
+    isFullScreen: Boolean
+    isProMode: Boolean
+    isRealTrading: Boolean
+    isSideBarCollapsed: Boolean
+}

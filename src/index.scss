@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // background-color: #050B39!important;
+
+  // height: 100%;
+  min-height: 100%;
+  display: flex;
+  width: 100%;
+}
+
+#root {
+  // height: 100%;
+  width: 100%;
+
+  & > div:first-child {
+    // height: 100vh;
+    width: 100%;
+    min-height: 100vh;
+  }
+}
+
+//#root > div:first-child {
+//  height: 100%;
+//}
+
+input:active, input:focus, button:active, button:focus {
+  outline: none;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+.jodit_tooltip {
+  top: -10000px;
+  left: -10000px;
+}
+
